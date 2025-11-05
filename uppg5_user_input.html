@@ -1,4 +1,38 @@
-    <!-- TODO: Klistra in din kod från alert.html
-    Låt användaren skriva in sin favoritmat med en input-tag
-    När användaren klickar på knappen ska du välkomna användaren till hemsidan 
-    + skriva ut dens favoritmat + "MUMS" -->
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Uppgift: Favoritmat</title>
+  <style>
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; font-family: sans-serif; background: white; gap: 15px;
+    }
+    input, button {
+      padding: 10px 15px; font-size: 16px; border-radius: 8px; border: 3px solid black;
+    }
+    button {
+      background: grey; color: white; border: none; cursor: pointer;
+    }
+    button:hover { background: goldenrod; }
+  </style>
+</head>
+<body>
+  <h2>Välkommen!</h2>
+  <p>Skriv in din favoritmat:</p>
+
+  <input type="text" id="favFood" placeholder="t.ex. pizza">
+  <button onclick="showWelcome()">Skicka</button>
+
+  <script>
+    function showWelcome() {
+      const food = document.getElementById("favFood").value.trim();
+      if (food) {
+        alert("Va säger du brur? " + food + " hade suttit bra nu.");
+      } else {
+        alert("Skriv in din favoritmat först brur!");
+      }
+    }
+  </script>
+</body>
+</html>

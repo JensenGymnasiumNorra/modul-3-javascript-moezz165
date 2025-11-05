@@ -1,21 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uppgift 2: Buttons</title>
-  </head>
-  <body>
-    <!-- TODO: Lägg till 5 knappar, där en är korrekt och 4 är inkorrekta -->
-  </body>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Uppgift 2: Slumpad knapp</title>
+  <style>
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; gap: 10px; font-family: sans-serif; background: #eef;
+    }
+    button {
+      padding: 10px 20px; font-size: 16px; border: none; border-radius: 8px;
+      background: gray; color: white; cursor: pointer;
+    }
+    button:hover { background: goldenrod; }
+  </style>
+</head>
+<body>
+  <h2>Gissa rätt knapp</h2>
+
+  <button>Knapp 1</button>
+  <button>Knapp 2</button>
+  <button>Knapp 3</bugeton>
+  <button>Knapp 4</button>
+  <button>Knapp 5</button>
 
   <script>
-    function showCorrect() {
-      alert("Correct!");
-    }
+    const buttons = document.querySelectorAll('button');
+    const correctIndex = Math.floor(Math.random() * buttons.length); // slumpa rätt knapp
 
-    function showIncorrect() {
-      alert("Incorrect!");
-    }
+    buttons[correctIndex].onclick = () => alert("ojoj. Rätt knapp brur!");
   </script>
+</body>
 </html>

@@ -12,26 +12,43 @@
     
     
 -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="weather.css">
-    <title>Conditional Statements Example</title>
+  <meta charset="UTF-8">
+  <title>Temperaturkänsla</title>
 </head>
 <body>
+  <h2>Temperaturkänsla</h2>
 
-    <label for="numberSlider">Select number</label>
-    <br>
-    <input type="range" id="valueSlider" min="0" max="100" value="25">
-    <br>
-    <span id="selectedNumber"></span>
-    <br>
-    <p id="hint"></p>
+  <input type="range" id="tempSlider" min="-30" max="40" value="10">
+  <p>Temperatur: <span id="tempVärde">10</span>°C</p>
+  <h3 id="meddelande"></h3>
 
+  <script>
+    const slider = document.getElementById("tempSlider");
+    const tempVärde = document.getElementById("tempVärde");
+    const meddelande = document.getElementById("meddelande");
 
-    <script src="uppg7.js"></script>
+    slider.oninput = function() {
+      const temp = Number(slider.value);
+      tempVärde.textContent = temp;
+
+      if (temp < -10) {
+        meddelande.textContent = "för kallt, gå inte ens ut.";
+      } else if (temp < 0) {
+        meddelande.textContent = "Riktigt kallt ute, ta på varma kläder. ";
+      } else if (temp < 10) {
+        meddelande.textContent = "Lite kallt ta på en jacka.";
+      } else if (temp < 20) {
+        meddelande.textContent = "skönt väder";
+      } else if (temp < 30) {
+        meddelande.textContent = "för varmt gå sola.";
+      } else {
+        meddelande.textContent = "Sdet är extremt varmt, stanna inne och drick mycket vatten";
+      }
+    };
+    slider.oninput();
+  </script>
 </body>
 </html>

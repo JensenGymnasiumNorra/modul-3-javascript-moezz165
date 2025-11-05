@@ -1,25 +1,48 @@
-<!--
-    Använd från genomgången (som ligger i filen nedan) för att skapa en miniräknare som fungerar för + - / *
-    Extrauppgift 1: Ändra inputfälten till sliders
-    Extrauppgift 2: Lägg till en dropdown för räknesätt och en knapp som utför beräkningen
-    Extrauppgift 3: Lägg till en knapp som lägger till en till slider/inputfält som ska ingå i beräkningen
-    För extrauppgift 3 krävs getElementsByClass
--->
+  <!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Miniräknare</title>
+</head>
+<body>
+  <h2>Enkel Miniräknare</h2>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Calculator Example</title>
-  </head>
-  <body>
-    <input type="text" id="num1" placeholder="Enter number 1" />
-    <input type="text" id="num2" placeholder="Enter number 2" />
-    <br /><br />
-    <button onclick="calculateSum()">+</button>
+  <input type="number" id="tal1" placeholder="Första talet">
+  <input type="number" id="tal2" placeholder="Andra talet">
+  <br><br>
 
-    <p id="result">Result:</p>
-  </body>
-  <script src="simple_calculator.js"></script>
+  <button id="plus">+</button>
+  <button id="minus">-</button>
+  <button id="gånger">*</button>
+  <button id="delat">/</button>
+
+  <h3>Resultat: <span id="resultat">0</span></h3>
+
+  <script>
+    const tal1 = document.getElementById("tal1");
+    const tal2 = document.getElementById("tal2");
+    const resultat = document.getElementById("resultat");
+
+    document.getElementById("plus").onclick = function() {
+      resultat.textContent = Number(tal1.value) + Number(tal2.value);
+    }
+
+    document.getElementById("minus").onclick = function() {
+      resultat.textContent = Number(tal1.value) - Number(tal2.value);
+    }
+
+    document.getElementById("gånger").onclick = function() {
+      resultat.textContent = Number(tal1.value) * Number(tal2.value);
+    }
+
+    document.getElementById("delat").onclick = function() {
+      if (Number(tal2.value) === 0) {
+        resultat.textContent = "Kan inte dela med 0!";
+      } else {
+        resultat.textContent = Number(tal1.value) / Number(tal2.value);
+      }
+    }
+  </script>
+</body>
 </html>
+

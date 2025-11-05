@@ -1,16 +1,381 @@
-<!-- 
-    Om du är färdig med de 5 första uppgifterna kan du på egen hand kolla upp och testa mer avancerad JS
-T.ex. hur man loopar eller gör if-satser i JS
--->
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uppgift 6+: Onward</title>
-  </head>
-  <body></body>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>guess za number</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <script></script>
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f17, #1f1f29);
+      color: #eee;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    #container {
+      background: black;
+      width: 100vw;
+      height: 100vh;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    h1 {
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #ff9f1c;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #ff9f1c;
+      font-size: 3rem;
+    }
+
+    #welcomeScreen {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #welcomeScreen label {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffb84d;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    #welcomeScreen input[type="text"] {
+      padding: 16px 20px;
+      font-size: 1.5rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: #222233;
+      color: #eee;
+      box-shadow: inset 0 0 10px #ff9f1c;
+      transition: box-shadow 0.3s ease;
+    }
+
+    #welcomeScreen input[type="text"]:focus {
+      box-shadow: 0 0 20px #ff9f1c;
+    }
+
+    #welcomeScreen button {
+      background: #ff9f1c;
+      color: #12121f;
+      border: none;
+      padding: 16px 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px #ff9f1c;
+      transition: background 0.3s ease;
+    }
+
+    #welcomeScreen button:hover:not(:disabled) {
+      background: #ffa630;
+    }
+
+    #welcomeScreen button:disabled {
+      cursor: not-allowed;
+      background-color: #555559;
+      box-shadow: none;
+      color: #aaa;
+    }
+
+    #gameScreen {
+      display: none;
+      flex-direction: column;
+      gap: 25px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #playerNameDisplay {
+      font-weight: 800;
+      font-size: 2rem;
+      color: #ff9f1c;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #ffb84d;
+      font-size: 1.3rem;
+      text-align: left;
+    }
+
+    select, input[type=number] {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 14px;
+      font-size: 1.3rem;
+      background-color: #222233;
+      color: #eee;
+      border: none;
+      box-shadow: inset 0 0 10px #ff9f1c;
+    }
+
+    select:hover, input[type=number]:hover {
+      box-shadow: 0 0 15px #ff9f1c;
+    }
+
+    #buttons {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    button {
+      background-color: #ff9f1c;
+      border: none;
+      color: #12121f;
+      font-weight: 700;
+      padding: 16px 35px;
+      font-size: 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 0 20px #ff9f1c;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #ffa630;
+      box-shadow: 0 0 30px #ffa630;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      background-color: #555559;
+      box-shadow: none;
+      color: #aaa;
+    }
+
+    #hint {
+      font-size: 1.4rem;
+      font-weight: 700;
+      min-height: 50px;
+      color: #ffcc66;
+      text-shadow: 0 0 8px #ffcc66;
+    }
+
+    #roundInfo, #scoreInfo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Gissa Numret</h1>
+
+    <div id="welcomeScreen">
+      <label for="usernameInput">Ange ditt användarnamn</label>
+      <input type="text" id="usernameInput" maxlength="15" placeholder="Skriv ditt namn här..." autocomplete="off" />
+      <button id="startGameBtn" disabled>Starta Spelet</button>
+    </div>
+
+    <div id="gameScreen" style="display:none;">
+      <div id="playerNameDisplay"></div>
+
+      <label for="rangeSelect">Välj svårighetsgrad:</label>
+      <select id="rangeSelect">
+        <option value="5">Enkel (1 - 5)</option>
+        <option value="10">Medel (1 - 10)</option>
+        <option value="20" selected>Svår (1 - 20)</option>
+      </select>
+
+      <label for="guessInput">Skriv in ditt nummer:</label>
+      <input type="number" id="guessInput" min="1" max="20" value="10" />
+
+      <div id="buttons">
+        <button id="guessBtn">Gissa</button>
+        <button id="nextRoundBtn" style="display:none;">Nästa Runda</button>
+      </div>
+
+      <p id="hint">Gissa numret!</p>
+      <p id="roundInfo">Runda: 1 / 10</p>
+      <p id="scoreInfo">Poäng: 0</p>
+    </div>
+  </div>
+
+  <script>
+    const usernameInput = document.getElementById('usernameInput');
+    const startGameBtn = document.getElementById('startGameBtn');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const playerNameDisplay = document.getElementById('playerNameDisplay');
+
+    const rangeSelect = document.getElementById('rangeSelect');
+    const guessInput = document.getElementById('guessInput');
+
+    const guessBtn = document.getElementById('guessBtn');
+    const nextRoundBtn = document.getElementById('nextRoundBtn');
+
+    const hint = document.getElementById('hint');
+    const roundInfo = document.getElementById('roundInfo');
+    const scoreInfo = document.getElementById('scoreInfo');
+
+    let playerName = '';
+    let maxRange = 20;
+    let secretNumber = 0;
+    let currentRound = 1;
+    const maxRounds = 10;
+    let score = 0;
+
+    let attemptsLeft = 3;
+    let currentAttempt = 0;
+
+    usernameInput.addEventListener('input', () => {
+      startGameBtn.disabled = usernameInput.value.trim() === '';
+    });
+
+    startGameBtn.addEventListener('click', () => {
+      playerName = usernameInput.value.trim();
+      if (!playerName) return;
+      welcomeScreen.style.display = 'none';
+      gameScreen.style.display = 'flex';
+      playerNameDisplay.textContent = `Spelare: ${playerName}`;
+      currentRound = 1;
+      score = 0;
+      initRound();
+      updateScore();
+    });
+
+    rangeSelect.addEventListener('change', () => {
+      maxRange = parseInt(rangeSelect.value);
+      guessInput.max = maxRange;
+      if (parseInt(guessInput.value) > maxRange) {
+        guessInput.value = maxRange;
+      } else if (parseInt(guessInput.value) < 1) {
+        guessInput.value = 1;
+      }
+      guessInput.value = Math.floor(maxRange / 2);
+      initRound();
+      hint.textContent = 'Gissa numret!';
+    });
+
+    guessBtn.addEventListener('click', () => {
+      const guess = parseInt(guessInput.value);
+      if (isNaN(guess) || guess < 1 || guess > maxRange) {
+        hint.textContent = `Vänligen ange ett giltigt nummer mellan 1 och ${maxRange}.`;
+        return;
+      }
+
+      currentAttempt++;
+
+      if (guess === secretNumber) {
+        let pointsEarned = 0;
+
+        if (maxRange === 5) { 
+          // Enkel nivå
+          if (currentAttempt === 1) pointsEarned = 3;
+          else if (currentAttempt === 2) pointsEarned = 2;
+          else if (currentAttempt === 3) pointsEarned = 1;
+        } else if (maxRange === 10) { 
+          // Medel nivå
+          if (currentAttempt === 1) pointsEarned = 5;
+          else if (currentAttempt === 2) pointsEarned = 3;
+          else if (currentAttempt === 3) pointsEarned = 1;
+        } else if (maxRange === 20) { 
+          // Svår nivå
+          if (currentAttempt === 1) pointsEarned = 7;
+          else if (currentAttempt === 2) pointsEarned = 5;
+          else if (currentAttempt === 3) pointsEarned = 2;
+        }
+
+        score += pointsEarned;
+        hint.textContent = `Rätt! Numret var ${secretNumber}. Du fick ${pointsEarned} poäng.`;
+        updateScore();
+        endRound();
+      } else {
+        attemptsLeft--;
+        if (attemptsLeft > 0) {
+          hint.textContent = guess < secretNumber ? 'För lågt! Försök igen.' : 'För högt! Försök igen.';
+        } else {
+          hint.textContent = `Inga försök kvar! Numret var ${secretNumber}. Du fick 0 poäng.`;
+          endRound();
+        }
+      }
+    });
+
+    nextRoundBtn.addEventListener('click', () => {
+      currentRound++;
+      if (currentRound > maxRounds) {
+        alert(`Spelet är slut! Din slutpoäng: ${score}`);
+        resetGame();
+      } else {
+        initRound();
+      }
+    });
+
+    function initRound() {
+      secretNumber = Math.floor(Math.random() * maxRange) + 1;
+      roundInfo.textContent = `Runda: ${currentRound} / ${maxRounds}`;
+      hint.textContent = 'Gissa numret!';
+      guessBtn.style.display = 'inline-block';
+      nextRoundBtn.style.display = 'none';
+      guessBtn.disabled = false;
+      guessInput.disabled = false;
+      rangeSelect.disabled = false;
+      guessInput.value = Math.floor(maxRange / 2);
+      guessInput.min = 1;
+      guessInput.max = maxRange;
+      attemptsLeft = 3;
+      currentAttempt = 0;
+    }
+
+    function endRound() {
+      guessBtn.style.display = 'none';
+      nextRoundBtn.style.display = 'inline-block';
+      guessBtn.disabled = true;
+      guessInput.disabled = true;
+      rangeSelect.disabled = true;
+      updateScore();
+    }
+
+    function updateScore() {
+      scoreInfo.textContent = `Poäng: ${score}`;
+    }
+
+    function resetGame() {
+      currentRound = 1;
+      score = 0;
+      welcomeScreen.style.display = 'flex';
+      gameScreen.style.display = 'none';
+      usernameInput.value = '';
+      startGameBtn.disabled = true;
+      hint.textContent = 'Gissa numret!';
+    }
+  </script>
+</body>
 </html>

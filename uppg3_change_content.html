@@ -1,23 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uppgift 3: Change content</title>
-    <style>
-      .recipe {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <button onclick="showCarbonara()">Show carbonara ingredients</button>
-    <button onclick="showPizza()">Show pizza ingredients</button>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Uppgift 3: Change content</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; gap: 10px; background: white;
+    }
+    button {
+      padding: 10px 20px; border: none; border-radius: 8px;
+      background:grey; color: white; cursor: pointer;
+    }
+    button:hover { background: goldenrod; }
+    #ingredients {
+      margin-top: 20px;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px ;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="showCarbonara()">Visa Carbonara</button>
+  <button onclick="showPizza()">Visa Pizza</button>
 
-    <div id="ingredients"></div>
+  <div id="ingredients"></div>
 
-    <script>
-      // TODO: Skapa funktionerna showCarbonara() och showPizza() för att visa ingredienserna för respektive recept i diven ingredients
-    </script>
-  </body>
+  <script>
+    const div = document.getElementById("ingredients");
+
+    function showCarbonara() {
+      div.innerHTML = `
+        <h3>Carbonara </h3>
+        <ul>
+          <li>Spaghetti</li>
+          <li>Ägg</li>
+          <li>Pancetta</li>
+          <li>Parmesan</li>
+          <li>Svartpeppar</li>
+        </ul>`;
+    }
+
+    function showPizza() {
+      div.innerHTML = `
+        <h3>Pizza </h3>
+        <ul>
+          <li>Pizzadeg</li>
+          <li>Tomatsås</li>
+          <li>Ost</li>
+          <li>Skinka</li>
+          <li>Champinjoner</li>
+        </ul>`;
+    }
+  </script>
+</body>
 </html>
+

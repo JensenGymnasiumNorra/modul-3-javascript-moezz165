@@ -1,15 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uppgift 1: Alert</title>
-  </head>
-  <body>
-    <button onclick="showAlert()">Click me for to be welcomed</button>
-  </body>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Alert</title>
+  <style>
+    body {
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; margin: 0; background: #eef; font-family: sans-serif;
+    }
+    button {
+      padding: 12px 25px; font-size: 18px; color: #fff;
+      background: linear-gradient(135deg, #000, #666);
+      border: none; border-radius: 8px; cursor: pointer;
+    }
+    .modal {
+      position: fixed; inset: 0; display: none;
+      justify-content: center; align-items: center;
+      background:black;
+    }
+    .box {
+      background: white; padding: 20px 30px; border-radius: 10px; text-align: center;
+    }
+    .box button { margin-top: 10px; background: purple; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    .box button:hover { background: goldenrod; }
+  </style>
+</head>
+<body>
+  <button onclick="modal.style.display='flex'">Click me!</button>
+
+  <div class="modal" id="modal">
+    <div class="box">
+      <h2>Välkommen!</h2>
+      <p>Sju brur, kul att du är här!</p>
+      <button onclick="modal.style.display='none'">Stäng</button>
+    </div>
+  </div>
 
   <script>
-    // TODO: Välkomna användaren med en alert när de klickar på knappen
+    const modal = document.getElementById('modal');
   </script>
+</body>
 </html>
